@@ -1,0 +1,55 @@
+---
+layout: post
+title:  "Test Suite"
+date:   2017-02-24 13:02:50 -0400
+categories: clojure react client-app testing
+---
+
+Tests are an intrinsic part of any software engineering culture.  When
+we were shopping for a platform to build Toda, we didn't want to end
+up making decisions which would impede our ability to test the system
+at every level.  Anything we chose would need to support unimpeded testing including:
+
+* **Unit tests** of all core library functions
+* **Integration tests** of the platform code, including a stubbed network layer
+* End-to-end **functional testing** of native clients
+
+Test frameworks are quite diverse, and many cannot support the full
+spectrum of tests from unit tests to functional tests of native
+clients.  Furthermore, the overall architecture can impede these
+efforts significantly.  Close-coupling between components makes
+stubbing simulated modules for tests much more difficult, and often
+involves more magical code which can interfere in normal operation.
+
+We wanted our cake and to eat it too: ideally, we wanted a test
+suite written in a single, consistent language across all scales of
+test.  This meant no special APIs for driving UI (like Selenium), no
+fragile, time-intensive recorded UI sessions, and no special test
+description languages.
+
+Using ClojureScript across our entire architecture paid dividends
+again: not only did it mean only writing tests against a single
+target, but it also meant the tests could be written in the same
+language (and stubs were trivial)!
+
+When it comes to functional testing the native apps for our joint
+venture, TQF, Figwheel and a repl turn a chore into a spectacle.
+Since we can drive the clients (and verify their internal state) from
+our editors, functional tests became very enjoyable to write and
+watch.  Interactively navigating by code, for example, is a one-liner:
+
+{% highlight clojure %}
+toda.views=> (navigate :History)
+{% endhighlight %}
+...And back home:
+{% highlight clojure %}
+toda.views=> (navigate-home)
+{% endhighlight %}
+
+The real upshot to this is that more tests get written.  I'm not
+chasing down engineers who 'owe' us tedious, time-intensive UI tests:
+they're writing the few necessary lines themselves to confirm their
+code, just like with unit tests.  And ultimately, it means a more
+robust, trustworthy user experience.
+
+Adam
